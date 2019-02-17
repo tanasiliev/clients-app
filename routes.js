@@ -1,14 +1,24 @@
-const controller = require('./controllers/clientsController');  
+const clientController = require('./controllers/clientController');
+const baseController = require('./controllers/baseController');    
 
 module.exports = function(app){
     
     //Clients Routes
     app.route('/clients')
-        .get(controller.findAll)
-        .post(controller.create);
+        .get(clientController.findAll)
+        .post(clientController.create);
 
     app.route('/clients/:clientId')
-        .get(controller.findOne)
-        .put(controller.update)
-        .delete(controller.delete);
+        .get(clientController.findOne)
+        .put(clientController.update)
+        .delete(clientController.delete);
+
+    app.route('/update-clients')
+        .post(clientController.updateMany);
+    
+    app.route('/send-email')
+        .post(baseController.sendEmail);
+        
+    app.route('/send-sms')
+        .post(baseController.sendSMS);      
 };

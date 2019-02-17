@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const clientSchema = require('../schemas/client');
 const Client = mongoose.model('Client', clientSchema);
 
+
 exports.findAll = function(req, res){
     Client.find({}, function(err, client){
         if(err)
@@ -36,6 +37,18 @@ exports.update = function(req, res) {
     });
 };
 
+exports.updateMany = function(req, res) {
+    Client.update(
+        { _id: { $in: req.body } },
+        { $set: { lastNotified : new Date() } },
+        { multi: true }
+    , function(err, client) {
+      if (err)
+        res.status(500).send(err);
+      res.json(client);
+    });
+};
+
 exports.delete = function(req, res){
     Client.deleteOne({_id : req.params.clientId}, function(err){
         if(err)
@@ -43,6 +56,17 @@ exports.delete = function(req, res){
         res.json({
 			message: 'record deleted',
 			_id: req.params.clientId,
+		});
+    });
+};
+
+
+exports.sendEmail = function(req, res){
+    sgMail.send(req.body, null, (err)=> {
+        if(err)
+            res.status(500).send(err);
+        res.json({
+			message: 'email sent successfully',
 		});
     });
 };

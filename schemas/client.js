@@ -19,7 +19,10 @@ const clientSchema = new Schema({
         required: [true, 'Полето "Телефон" е задължително!'],
     },
     lastVisited: { type: Date, default: Date.now },
-    lastNotified: { type: Date, default: Date.now },
+    lastNotified: {
+        type: Date,
+        default: null,
+    },
     period: {
         type: Number,
         min: 1,
