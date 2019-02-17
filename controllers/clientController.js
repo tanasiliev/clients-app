@@ -61,16 +61,6 @@ exports.delete = function(req, res){
 };
 
 
-exports.sendEmail = function(req, res){
-    sgMail.send(req.body, null, (err)=> {
-        if(err)
-            res.status(500).send(err);
-        res.json({
-			message: 'email sent successfully',
-		});
-    });
-};
-
 
 
 
